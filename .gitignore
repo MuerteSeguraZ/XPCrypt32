@@ -1,0 +1,13 @@
+# Ignore generated files and useless dirs
+.vscode/
+build/
+output-tests/
+
+# Ignore test C files
+test_vectors.c
+main.c
+csprng_test.c
+
+# Ignore compiled executables
+*.o
+*.exe
