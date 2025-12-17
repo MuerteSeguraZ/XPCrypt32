@@ -85,6 +85,22 @@ if "%1"=="--aes" (
     exit /b 0
 )
 
+if "%1"=="--dh" (
+    echo Building Diffie-Hellman library...
+    gcc -std=c99 -O2 -c diffie-hellman/dh.c -o build/objects/dh.o
+    if errorlevel 1 (
+        echo Build stopped: dh.c failed
+        exit /b 1
+    )
+    ar rcs build/libdh.a build/objects/dh.o
+    if errorlevel 1 (
+        echo Build stopped: libdh.a creation failed
+        exit /b 1
+    )
+    echo Done: build/libdh.a created.
+    exit /b 0
+)
+
 
 if "%1"=="--all" (
     echo Building all libraries...
@@ -93,6 +109,7 @@ if "%1"=="--all" (
     call %0 --chacha
     call %0 --keccak
     call %0 --aes
+    call %0 --dh
     exit /b 0
 )
 
@@ -144,6 +161,15 @@ if "%1"=="--tests" (
         exit /b 1
     )
     echo Test created: output-tests\test_aes.exe
+
+    rem test: dh_test.c
+    gcc -std=c99 -O2 diffie-hellman/dh_test.c -Lbuild -ldh -lcsprng -o output-tests\dh_test.exe
+    if errorlevel 1 (
+        echo Build stopped: dh_test.exe failed
+        exit /b 1
+    )
+    echo Test created: output-tests\dh_test.exe
+
 
     echo All tests compiled successfully into output-tests.
     exit /b 0
