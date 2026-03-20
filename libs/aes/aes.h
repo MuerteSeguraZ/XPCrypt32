@@ -1,6 +1,7 @@
 #ifndef AES_H
 #define AES_H
 #include <stdint.h>
+#include <stddef.h>
 
 typedef struct {
     uint32_t round_keys[60]; // Max for AES-256
